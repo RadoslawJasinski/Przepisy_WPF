@@ -1,0 +1,253 @@
+﻿<UserControl x:Class="Przepisy_WPF.UserControlRecipeDetails"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Przepisy_WPF"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             Background="#F4F5F8"
+             x:Name="RecipeDetails">
+    <Grid x:Name="RecipeDetailsGrid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="37*"/>
+            <ColumnDefinition Width="220"/>
+            <ColumnDefinition Width="368*"/>
+            <ColumnDefinition Width="220"/>
+            <ColumnDefinition Width="37*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="19"/>
+            <RowDefinition Height="91"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="270"/>
+            <RowDefinition Height="51*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3">
+            <Border CornerRadius="5" Background="white"/>
+        </Grid>
+        
+        <Grid x:Name="TopBar" Grid.Column="1"  Grid.Row="1" Grid.ColumnSpan="3">
+            <Button x:Name="btn_Back"
+                    Width="40"
+                    Height="40"
+                    ToolTip="Wstecz"
+                    HorizontalAlignment="Left"
+                    Margin="15 0"
+                    BorderBrush="{x:Null}"
+                    Background="{x:Null}"
+                    Foreground="#F84E6F"
+                    Style="{StaticResource MaterialDesignIconButton}"
+                    Content="{materialDesign:PackIcon Kind=ArrowBack, Size=40}"
+                    Cursor="Hand"
+                    Click="BtnBack_Click"/>
+
+            <ItemsControl x:Name="RecipeName" VerticalAlignment="Center" >
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Label x:Name="lb_RecipeName"
+                               Content="{Binding Name}"
+                               Foreground="#97989B"
+                               FontSize="24"
+                               HorizontalAlignment="Center"
+                               FontFamily="Segoe UI Light"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button x:Name="btn_PrintRecipe"
+                        Width="40"
+                        Height="40"
+                        ToolTip="Wydrukuj przepis"
+                        HorizontalAlignment="Right"
+                        Margin="0 0 15 0"
+                        BorderBrush="{x:Null}"
+                        Background="{x:Null}"
+                        Foreground="#F84E6F"
+                        Style="{StaticResource MaterialDesignIconButton}"
+                        Content="{materialDesign:PackIcon Kind=Printer, Size=30}"
+                        Cursor="Hand"/>
+
+                <Button x:Name="btn_AddFavDetails"
+                        Width="40"
+                        Height="40"
+                        ToolTip="Dodaj do ulubionych"
+                        HorizontalAlignment="Right"
+                        Margin="0 0 15 0"
+                        BorderBrush="{x:Null}"
+                        Background="{x:Null}"
+                        Foreground="#F84E6F"
+                        Style="{StaticResource MaterialDesignIconButton}"
+                        Content="{materialDesign:PackIcon Kind=HeartOutline, Size=30}"
+                        Cursor="Hand"/>
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="3" Grid.RowSpan="2" Grid.Column="1" Grid.ColumnSpan="3">
+            <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible">
+                <StackPanel>
+                    <Border Background="White" CornerRadius="5" Margin="0 0 0 30" HorizontalAlignment="Center">
+
+                        <ScrollViewer x:Name="scroll_images"
+                                      Height="auto"
+                                      HorizontalScrollBarVisibility="auto" 
+                                      VerticalScrollBarVisibility="Disabled">
+
+                            <ItemsControl x:Name="ImagesList">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel HorizontalAlignment="Center" x:Name="Images">
+                                            <Border CornerRadius="20" 
+                                                    Width="250" 
+                                                    Height="250"
+                                                    Margin="10">
+                                                <Border.Background>
+                                                    <ImageBrush x:Name="img_Item" Stretch="UniformToFill" ImageSource="{Binding ImagesURL}"/>
+                                                </Border.Background>
+                                            </Border>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </Border>
+
+                    <Grid Height="auto">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="60*"/>
+                            <ColumnDefinition Width="40*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid x:Name="Description" Grid.Column="0" Margin="0 0 20 0" Grid.RowSpan="2">
+                            <Border Background="White" CornerRadius="5" >
+                                <StackPanel>
+                                    <Label Content="Sposób przygotowania"
+                                           Foreground="#97989B"
+                                           FontSize="20"
+                                           HorizontalAlignment="Center"
+                                           FontFamily="Segoe UI"
+                                           FontWeight="DemiBold"
+                                           Margin="0 10"/>
+
+                                    <ItemsControl x:Name="DescriptionBind">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock x:Name="txt_RecipeDescription"
+                                                       Text="{Binding Description}"
+                                                       TextWrapping="Wrap"
+                                                       Margin="15 0 15 15"
+                                                       Foreground="#97989B"
+                                                       FontSize="16"
+                                                       HorizontalAlignment="Center"
+                                                       FontFamily="Segoe UI Light"/>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </StackPanel>
+                            </Border>
+
+                        </Grid>
+
+                        <Grid x:Name="Ingredients" Grid.Column="1" Height="auto" VerticalAlignment="Top" Grid.Row="0">
+                            <Border CornerRadius="5"
+                                    Background="white"
+                                    VerticalAlignment="Top">
+                                <StackPanel>
+                                    <Label Content="Składniki"
+                                           Foreground="#97989B"
+                                           FontSize="20"
+                                           HorizontalAlignment="Center"
+                                           FontFamily="Segoe UI"
+                                           FontWeight="DemiBold"
+                                           Margin="0 10"/>
+
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="50*"/>
+                                            <ColumnDefinition Width="50*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Grid Grid.Column="0">
+                                            <ItemsControl x:Name="IngredientNameBind">
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Label Content="{Binding IngredientName}"
+                                                               Margin="15 0 0 15"
+                                                               Foreground="#97989B"
+                                                               FontSize="16"
+                                                               HorizontalAlignment="Left"
+                                                               FontFamily="Segoe UI Light"/>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+
+                                        </Grid>
+
+                                        <Grid Grid.Column="1">
+
+                                            <ItemsControl x:Name="IngredientQuantityBind">
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Label Content="{Binding Quantity}"
+                                                           Margin="15 0 15 15"
+                                                           Foreground="#97989B"
+                                                           FontSize="16"
+                                                           HorizontalAlignment="Right"
+                                                           FontFamily="Segoe UI Light"/>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                        </Grid>
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+
+                        <Grid x:Name="Spices" Grid.Column="1" Height="auto" VerticalAlignment="Top" Grid.Row="1" Margin="0 10 0 0">
+                            <Border CornerRadius="5"
+                                    Background="White">
+
+                                <StackPanel>
+
+                                    <Label Content="Przyprawy i dodatki"
+                                           Foreground="#97989B"
+                                           FontSize="20"
+                                           HorizontalAlignment="Center"
+                                           FontFamily="Segoe UI"
+                                           FontWeight="DemiBold"
+                                           Margin="0 10"/>
+
+                                    <ItemsControl x:Name="SpicesBind">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Label Content="{Binding Spices}"
+                                                       Foreground="#97989B"
+                                                       FontSize="16"
+                                                       HorizontalAlignment="Center"
+                                                       FontFamily="Segoe UI Light"/>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+                    </Grid>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</UserControl>
