@@ -21,7 +21,8 @@ In the future:
 - Print the recipe,
 - News card,
 - User login,
-- Add recipes to favorites
+- Add recipes to favorites,
+- Dark theme
 
 ## User Interface
 
