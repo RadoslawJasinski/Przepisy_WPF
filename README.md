@@ -24,3 +24,19 @@ In the future:
 - Add recipes to favorites
 
 ## User Interface
+
+
+![home page](https://github.com/RadoslawJasinski/RecipeApp/blob/master/Github%20images/main.png)
+<p align="center">Main panel</p>&nbsp;
+
+![categories](https://github.com/RadoslawJasinski/RecipeApp/blob/master/Github%20images/categories.png)
+<p align="center">Categories</p>&nbsp;
+
+![Search by ingredients](https://github.com/RadoslawJasinski/RecipeApp/blob/master/Github%20images/search.png)
+<p align="center">Search by ingredients</p>&nbsp;
+
+![Search by keyword](https://github.com/RadoslawJasinski/RecipeApp/blob/master/Github%20images/search1.png)
+<p align="center">Search by keywords</p>&nbsp;
+
+![Description](https://github.com/RadoslawJasinski/RecipeApp/blob/master/Github%20images/desc.png)
+<p align="center">Description</p>
