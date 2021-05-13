@@ -12,10 +12,6 @@ namespace Przepisy_WPF
     class DbConnect
     {
         private MySqlConnection cn;
-        private string server;
-        private string database;
-        private string user;
-        private string password;
 
         public List<Recipe> RecipesAllList { get; set; }
         public List<Recipe> SelectedRecipes { get; set; }
@@ -33,13 +29,7 @@ namespace Przepisy_WPF
 
         private void Initialize()
         {
-            server = "bglkg5fecnbvhysm4c8y-mysql.services.clever-cloud.com";
-            database = "bglkg5fecnbvhysm4c8y";
-            user = "uot0rqrg9upnfxem";
-            password = "UaivAUSOg5fFvqhAi2RI";
-            string connectionString;
-            connectionString = "SERVER=" + server + ";" + "DATABASE=" +
-            database + ";" + "UID=" + user + ";" + "PASSWORD=" + password + ";";
+            string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["RecipesConString"].ConnectionString;
 
             cn = new MySqlConnection(connectionString);
         }
