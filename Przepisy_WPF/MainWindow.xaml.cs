@@ -19,36 +19,20 @@ namespace Przepisy_WPF
     public partial class MainWindow : Window
     {
         
-        private readonly DbConnect data = new DbConnect();
-        
-        public List<Recipe> RecipesAllList { get; set; }
-        public List<Ingredient> IngredientList { get; set; }
-        public List<Recipe> BreakfastList { get; set; }
-        public List<Recipe> DinnerList { get; set; }
-        public List<Recipe> SnackList { get; set; }
-        public List<Recipe> DessertList { get; set; }
+        private readonly DbConnect _data = new DbConnect();
 
         public MainWindow()
         {
             InitializeComponent();
             
-            data.GetData();
-
-            RecipesAllList = data.RecipesAllList;
-            IngredientList = data.GetIngredient();
-            BreakfastList = data.BreakfastList;
-            DinnerList = data.DinnerList;
-            SnackList = data.SnackList;
-            DessertList = data.DessertList;
+            _data.GetData();
+            _data.GetIngredient();
 
             MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight;
-            UserControlHome UscHome = new UserControlHome(RecipesAllList,IngredientList,BreakfastList,DinnerList,SnackList,DessertList);
+            UserControlHome UscHome = new UserControlHome(_data);
 
             ContentPanel.Children.Add(UscHome);
         }
-
-
-
 
         private void DragWindow(object sender, RoutedEventArgs e)
         {
@@ -149,7 +133,7 @@ namespace Przepisy_WPF
 
             if(clickedButton == btn_Home)
             {
-                UserControlHome UscHome = new UserControlHome(RecipesAllList, IngredientList, BreakfastList, DinnerList, SnackList, DessertList);
+                UserControlHome UscHome = new UserControlHome(_data);
                 ContentPanel.Children.Add(UscHome);
             }
 
@@ -203,11 +187,11 @@ namespace Przepisy_WPF
             if(clickedButton == btn_Breakfast)
             {
                 ContentPanel.Children.Clear();
-                UserControlHome UscHome = new UserControlHome(RecipesAllList, IngredientList, BreakfastList, DinnerList, SnackList, DessertList);
+                UserControlHome UscHome = new UserControlHome(_data);
 
                 UscHome.lb_Category.Content = "Śniadania";
                 
-                UscHome.ItemsList.ItemsSource = data.BreakfastList;
+                UscHome.ItemsList.ItemsSource = _data.BreakfastList;
                 btn_CategoryClose.Visibility = Visibility.Collapsed;
                 btn_Category.Visibility = Visibility.Visible;
                 ContentPanel.Children.Add(UscHome);
@@ -216,11 +200,11 @@ namespace Przepisy_WPF
             else if (clickedButton == btn_Dinner)
             {
                 ContentPanel.Children.Clear();
-                UserControlHome UscHome = new UserControlHome(RecipesAllList, IngredientList, BreakfastList, DinnerList, SnackList, DessertList);
+                UserControlHome UscHome = new UserControlHome(_data);
 
                 UscHome.lb_Category.Content = "Obiady";
 
-                UscHome.ItemsList.ItemsSource = data.DinnerList;
+                UscHome.ItemsList.ItemsSource = _data.DinnerList;
                 btn_CategoryClose.Visibility = Visibility.Collapsed;
                 btn_Category.Visibility = Visibility.Visible;
                 ContentPanel.Children.Add(UscHome);
@@ -228,11 +212,11 @@ namespace Przepisy_WPF
             else if (clickedButton == btn_Snack)
             {
                 ContentPanel.Children.Clear();
-                UserControlHome UscHome = new UserControlHome(RecipesAllList, IngredientList, BreakfastList, DinnerList, SnackList, DessertList);
+                UserControlHome UscHome = new UserControlHome(_data);
 
                 UscHome.lb_Category.Content = "Przekąski";
 
-                UscHome.ItemsList.ItemsSource = data.SnackList;
+                UscHome.ItemsList.ItemsSource = _data.SnackList;
                 btn_CategoryClose.Visibility = Visibility.Collapsed;
                 btn_Category.Visibility = Visibility.Visible;
                 ContentPanel.Children.Add(UscHome);
@@ -240,11 +224,11 @@ namespace Przepisy_WPF
             else if (clickedButton == btn_Dessert)
             {
                 ContentPanel.Children.Clear();
-                UserControlHome UscHome = new UserControlHome(RecipesAllList, IngredientList, BreakfastList, DinnerList, SnackList, DessertList);
+                UserControlHome UscHome = new UserControlHome(_data);
 
                 UscHome.lb_Category.Content = "Desery";
 
-                UscHome.ItemsList.ItemsSource = data.DessertList;
+                UscHome.ItemsList.ItemsSource = _data.DessertList;
                 btn_CategoryClose.Visibility = Visibility.Collapsed;
                 btn_Category.Visibility = Visibility.Visible;
                 ContentPanel.Children.Add(UscHome);

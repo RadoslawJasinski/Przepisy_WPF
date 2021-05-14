@@ -20,26 +20,15 @@ namespace Przepisy_WPF
     
     public partial class UserControlHome : UserControl
     {
-        public List<Recipe> RecipesAllList { get; set; }
-        public List<Ingredient> IngredientList { get; set; }
-        public List<Recipe> BreakfastList { get; set; }
-        public List<Recipe> DinnerList { get; set; }
-        public List<Recipe> SnackList { get; set; }
-        public List<Recipe> DessertList { get; set; }
-        public List<Recipe> SelectedRecipes { get; set; }
 
-        public UserControlHome(List<Recipe> RecipesAllList,List<Ingredient> IngredientList, List<Recipe> BreakfastList, List<Recipe> DinnerList,List<Recipe> SnackList, List<Recipe> DessertList)
+        public DbConnect Data { get; set; }
+
+        public UserControlHome(DbConnect data)
         {
             InitializeComponent();
-            ItemsList.ItemsSource = RecipesAllList;
-            IngredientsList.ItemsSource = IngredientList;
-
-            this.RecipesAllList = RecipesAllList;
-            this.IngredientList = IngredientList;
-            this.BreakfastList = BreakfastList;
-            this.DinnerList = DinnerList;
-            this.SnackList = SnackList;
-            this.DessertList = DessertList;  
+            Data = data;
+            ItemsList.ItemsSource = Data.RecipesAllList;
+            IngredientsList.ItemsSource = Data.IngredientList;
         }
 
         private void BtnOpenIng_Click(object sender, RoutedEventArgs e) //Button method open "search by ingredients"
@@ -82,7 +71,7 @@ namespace Przepisy_WPF
                 else
                 {
                     ItemsList.ItemsSource = selectedItems;
-                    SelectedRecipes = selectedItems;
+                    Data.SelectedRecipes = selectedItems;
                     lb_Category.Content = "Według składników";
                 }
             }
@@ -100,38 +89,38 @@ namespace Przepisy_WPF
             {
                 case "Według składników":
                     {
-                        var byIngredients = SelectedRecipes.FindAll(x => x.Name.Contains(txt_Search.Text));
+                        var byIngredients = Data.SelectedRecipes.FindAll(x => x.Name.Contains(txt_Search.Text));
                         ItemsList.ItemsSource = byIngredients;
                         break;
                     }
                 case "Śniadania":
                     {
-                        var breakfastList = BreakfastList.FindAll(x => x.Name.Contains(txt_Search.Text));
+                        var breakfastList = Data.BreakfastList.FindAll(x => x.Name.Contains(txt_Search.Text));
                         ItemsList.ItemsSource = breakfastList;
                         break;
                     }
                 case "Obiady":
                     {
-                        var dinnerList = DinnerList.FindAll(x => x.Name.Contains(txt_Search.Text));
+                        var dinnerList = Data.DinnerList.FindAll(x => x.Name.Contains(txt_Search.Text));
                         ItemsList.ItemsSource = dinnerList;
                         break;
                     }
                 case "Przekąski":
                     {
-                        var snackList = SnackList.FindAll(x => x.Name.Contains(txt_Search.Text));
+                        var snackList = Data.SnackList.FindAll(x => x.Name.Contains(txt_Search.Text));
                         ItemsList.ItemsSource = snackList;
                         break;
                     }
                 case "Desery":
                     {
-                        var dessertList = DessertList.FindAll(x => x.Name.Contains(txt_Search.Text));
+                        var dessertList = Data.DessertList.FindAll(x => x.Name.Contains(txt_Search.Text));
                         ItemsList.ItemsSource = dessertList;
                         break;
                     }
 
                 default:
                     {
-                        var all = RecipesAllList.FindAll(x => x.Name.Contains(txt_Search.Text));
+                        var all = Data.RecipesAllList.FindAll(x => x.Name.Contains(txt_Search.Text));
                         ItemsList.ItemsSource = all;
                         break;
                     }
@@ -144,7 +133,7 @@ namespace Przepisy_WPF
             var panelLabel = senderPanel.Children.OfType<Label>().First();
             var tag = panelLabel.Content.ToString();
             
-            var recipeDetails = RecipesAllList.FindAll(x => x.Name.Contains(tag)); //Get information on a specifed recipe
+            var recipeDetails = Data.RecipesAllList.FindAll(x => x.Name.Contains(tag)); //Get information on a specifed recipe
 
             var recID = recipeDetails.First();
             var id = recID.RecipeID;
@@ -158,7 +147,7 @@ namespace Przepisy_WPF
 
             //var commonIngredients = from x in IngredientList join det in ingredientsQuantity on x.IngredientID equals det.IngredientID select x.IngredientName;
 
-            UserControlRecipeDetails uscRecipeDet = new UserControlRecipeDetails(recipeDetails,images,ingredientsQuantity,ingredientsName);
+            UserControlRecipeDetails uscRecipeDet = new UserControlRecipeDetails(recipeDetails,images,ingredientsQuantity,ingredientsName,Data);
 
             this.Content = uscRecipeDet;
         }

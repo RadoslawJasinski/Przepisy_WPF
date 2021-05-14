@@ -18,7 +18,8 @@ namespace Przepisy_WPF
 {
     public partial class UserControlRecipeDetails : UserControl
     {
-        public UserControlRecipeDetails(List<Recipe> recipe, List<Recipe> images, List<Ingredient> quantity, List<Ingredient> ingredientName)
+        public DbConnect Data { get; set; }
+        public UserControlRecipeDetails(List<Recipe> recipe, List<Recipe> images, List<Ingredient> quantity, List<Ingredient> ingredientName, DbConnect data)
         {
             InitializeComponent();
 
@@ -28,19 +29,13 @@ namespace Przepisy_WPF
             IngredientQuantityBind.ItemsSource = quantity;
             IngredientNameBind.ItemsSource = ingredientName;
             SpicesBind.ItemsSource = recipe;
+            Data = data;
         }
+
 
         private void BtnBack_Click(object sender, RoutedEventArgs e)
         { 
-            MainWindow mw = new MainWindow();
-            var Recipe = mw.RecipesAllList;
-            var Ingre = mw.IngredientList;
-            var BreakfastList = mw.BreakfastList;
-            var DinnerList = mw.DinnerList;
-            var SnackList = mw.SnackList;
-            var DessertList = mw.DessertList;
-
-            UserControlHome uscH = new UserControlHome(Recipe, Ingre, BreakfastList, DinnerList, SnackList, DessertList);
+            UserControlHome uscH = new UserControlHome(Data);
             this.Content = uscH;
         }
     }

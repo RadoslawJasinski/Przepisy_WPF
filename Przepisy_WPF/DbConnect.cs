@@ -9,7 +9,7 @@ using Przepisy_WPF.Models;
 
 namespace Przepisy_WPF
 {
-    class DbConnect
+    public class DbConnect
     {
         private MySqlConnection cn;
 
@@ -19,6 +19,7 @@ namespace Przepisy_WPF
         public List<Recipe> DinnerList { get; set; }
         public List<Recipe> SnackList { get; set; }
         public List<Recipe> DessertList { get; set; }
+        public List<Ingredient> IngredientList { get; set; }
 
 
 
@@ -118,7 +119,7 @@ namespace Przepisy_WPF
             string name;
             string query = "SELECT * FROM Ingredients";
 
-            List<Ingredient> ingredient = new List<Ingredient>();
+            IngredientList = new List<Ingredient>();
 
             if (this.OpenConnection() == true)
             {
@@ -129,15 +130,16 @@ namespace Przepisy_WPF
                     id = dr["id_ingredient"].ToString();
                     name = dr["name_ingredient"].ToString();
 
-                    ingredient.Add(new Ingredient(id, name));
+                    IngredientList.Add(new Ingredient(id, name));
+
                 }
                 dr.Close();
                 this.CloseConnection();
-                return ingredient;
+                return IngredientList;
             }
             else
             {
-                return ingredient;
+                return IngredientList;
             }
         }
 
