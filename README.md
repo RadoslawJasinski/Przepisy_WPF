@@ -16,9 +16,9 @@ Done:
 + Search recipes by ingredients selected by the user, 
 + Search recipes by keyword,
 + Categories 
++ Print the recipe
 
 In the future:
-- Print the recipe,
 - News card,
 - User login,
 - Add recipes to favorites,
