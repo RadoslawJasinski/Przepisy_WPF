@@ -19,6 +19,9 @@ namespace Przepisy_WPF
     public partial class UserControlRecipeDetails : UserControl
     {
         public DbConnect Data { get; set; }
+        public List<Recipe> RecipeInfo { get; set; }
+        public List<Ingredient> IngredientsQuantity { get; private set; }
+        public List<Ingredient> IngredientsName { get; private set; }
         public UserControlRecipeDetails(List<Recipe> recipe, List<Recipe> images, List<Ingredient> quantity, List<Ingredient> ingredientName, DbConnect data)
         {
             InitializeComponent();
@@ -30,6 +33,9 @@ namespace Przepisy_WPF
             IngredientNameBind.ItemsSource = ingredientName;
             SpicesBind.ItemsSource = recipe;
             Data = data;
+            RecipeInfo = recipe;
+            IngredientsQuantity = quantity;
+            IngredientsName = ingredientName;
         }
 
 
@@ -37,6 +43,11 @@ namespace Przepisy_WPF
         { 
             UserControlHome uscH = new UserControlHome(Data);
             this.Content = uscH;
+        }
+
+        private void BtnPrintRecipe_Click(object sender, RoutedEventArgs e)
+        {
+            PrintRecipe printRec = new PrintRecipe(RecipeInfo, IngredientsQuantity, IngredientsName);
         }
     }
 }

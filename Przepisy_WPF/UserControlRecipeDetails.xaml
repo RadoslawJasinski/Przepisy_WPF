@@ -59,6 +59,7 @@
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button x:Name="btn_PrintRecipe"
+                        Click="BtnPrintRecipe_Click"
                         Width="40"
                         Height="40"
                         ToolTip="Wydrukuj przepis"
