@@ -17,9 +17,9 @@ Done:
 + Search recipes by keyword,
 + Categories 
 + Print the recipe
++ News
 
 In the future:
-- News card,
 - User login,
 - Add recipes to favorites,
 - Dark theme
