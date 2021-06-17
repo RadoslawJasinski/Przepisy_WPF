@@ -27,8 +27,8 @@ namespace Przepisy_WPF
         {
             InitializeComponent();
             Data = data;
-            ItemsList.ItemsSource = Data.RecipesAllList;
-            IngredientsList.ItemsSource = Data.IngredientList;
+            ItemsList.ItemsSource = Data.RecipesAllList.OrderByDescending(x => x.RecipeID);
+            IngredientsList.ItemsSource = Data.IngredientList.OrderBy(x => x.IngredientName);
         }
 
         private void BtnOpenIng_Click(object sender, RoutedEventArgs e) //Button method open "search by ingredients"
@@ -90,38 +90,38 @@ namespace Przepisy_WPF
                 case "Według składników":
                     {
                         var byIngredients = Data.SelectedRecipes.FindAll(x => x.Name.Contains(txt_Search.Text));
-                        ItemsList.ItemsSource = byIngredients;
+                        ItemsList.ItemsSource = byIngredients.OrderByDescending(x => x.RecipeID);
                         break;
                     }
                 case "Śniadania":
                     {
                         var breakfastList = Data.BreakfastList.FindAll(x => x.Name.Contains(txt_Search.Text));
-                        ItemsList.ItemsSource = breakfastList;
+                        ItemsList.ItemsSource = breakfastList.OrderByDescending(x => x.RecipeID);
                         break;
                     }
                 case "Obiady":
                     {
                         var dinnerList = Data.DinnerList.FindAll(x => x.Name.Contains(txt_Search.Text));
-                        ItemsList.ItemsSource = dinnerList;
+                        ItemsList.ItemsSource = dinnerList.OrderByDescending(x => x.RecipeID);
                         break;
                     }
                 case "Przekąski":
                     {
                         var snackList = Data.SnackList.FindAll(x => x.Name.Contains(txt_Search.Text));
-                        ItemsList.ItemsSource = snackList;
+                        ItemsList.ItemsSource = snackList.OrderByDescending(x => x.RecipeID);
                         break;
                     }
                 case "Desery":
                     {
                         var dessertList = Data.DessertList.FindAll(x => x.Name.Contains(txt_Search.Text));
-                        ItemsList.ItemsSource = dessertList;
+                        ItemsList.ItemsSource = dessertList.OrderByDescending(x => x.RecipeID);
                         break;
                     }
 
                 default:
                     {
                         var all = Data.RecipesAllList.FindAll(x => x.Name.Contains(txt_Search.Text));
-                        ItemsList.ItemsSource = all;
+                        ItemsList.ItemsSource = all.OrderByDescending(x => x.RecipeID);
                         break;
                     }
             }
@@ -131,32 +131,19 @@ namespace Przepisy_WPF
         {
             var senderPanel = sender as Grid;
             var panelLabel = senderPanel.Children.OfType<Label>().First();
-            var tag = panelLabel.Content.ToString();
+            int recipeID = (int)panelLabel.Content;
             
-            var recipeDetails = Data.RecipesAllList.FindAll(x => x.Name.Contains(tag)); //Get information on a specifed recipe
-
-            var recID = recipeDetails.First();
-            var id = recID.RecipeID;
+            var recipeDetails = Data.RecipesAllList.FindAll(x => x.RecipeID.Equals(recipeID)); //Get information on a specifed recipe
 
             DbConnect db = new DbConnect();
-            var images = db.GetDetailImages(id);
-            var ingredientsQuantity = db.GetDetailQuantityIngredient(id);
-            var ingredientsName = db.GetSelectedIngredientsName(id);
-
-            //var result = IngredientList.Union(ingredientsQuantity).Where(w => (IngredientList.Contains(w) && ingredientsQuantity.Contains(w))).ToList<Ingredient>();
-
-            //var commonIngredients = from x in IngredientList join det in ingredientsQuantity on x.IngredientID equals det.IngredientID select x.IngredientName;
+            var images = db.GetDetailImages(recipeID);
+            var ingredientsQuantity = db.GetDetailQuantityIngredient(recipeID);
+            var ingredientsName = db.GetSelectedIngredientsName(recipeID);
 
             UserControlRecipeDetails uscRecipeDet = new UserControlRecipeDetails(recipeDetails,images,ingredientsQuantity,ingredientsName,Data);
 
             this.Content = uscRecipeDet;
         }
 
-        //private List<Ingredient> GetCommonList(List<Ingredient> A, List<Ingredient> B)
-        //{
-        //    var result = A.Intersect(B).ToList<Ingredient>();
-            
-        //    return result;
-        //}
     }
 }

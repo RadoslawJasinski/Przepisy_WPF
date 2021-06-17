@@ -8,23 +8,23 @@ namespace Przepisy_WPF.Models
 {
     public class Ingredient
     {
-        public string IngredientID { get; set; }
+        public int IngredientID { get; set; }
         public string IngredientName { get; set; }
         public bool IsSelected { get; set; }
         public string Quantity { get; set; }
-        public string RecipeID { get; set; }
+        public int RecipeID { get; set; }
 
 
         public Ingredient(string name)
         {
             this.IngredientName = name;
         }
-        public Ingredient(string id, string name)
+        public Ingredient(int id, string name)
         {
             this.IngredientID = id;
             this.IngredientName = name;
         }
-        public Ingredient(string quantity,string idIngredient, string idRecipe)
+        public Ingredient(string quantity,int idIngredient, int idRecipe)
         {
             this.Quantity = quantity;
             this.IngredientID = idIngredient;

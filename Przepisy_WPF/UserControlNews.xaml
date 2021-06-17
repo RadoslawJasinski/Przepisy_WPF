@@ -8,9 +8,141 @@
              d:DesignHeight="450" d:DesignWidth="800"
              Background="#F4F5F8">
     <Grid>
-        <Label Content="Trwają prace :)"
-               FontSize="24"
-               HorizontalAlignment="Center"
-               VerticalAlignment="Center"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="37*"/>
+            <ColumnDefinition Width="220"/>
+            <ColumnDefinition Width="368*"/>
+            <ColumnDefinition Width="220"/>
+            <ColumnDefinition Width="37*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="19"/>
+            <RowDefinition Height="91"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="100*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3">
+            <Border CornerRadius="5" Background="white"/>
+        </Grid>
+
+        <Grid x:Name="TopBar" Grid.Column="1"  Grid.Row="1" Grid.ColumnSpan="3">
+            <Border x:Name="RecipeName" VerticalAlignment="Center" >
+                <Label x:Name="lb_RecipeName"
+                               Content="Aktualności"
+                               Foreground="#97989B"
+                               FontSize="24"
+                               HorizontalAlignment="Center"
+                               FontFamily="Segoe UI Light"/>
+            </Border>
+        </Grid>
+
+        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3">
+            <StackPanel x:Name="test">
+                <ItemsControl x:Name="LatestArticle">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid MouseLeftButtonDown="Article_Click" Cursor="Hand">
+                                <Label Content="{Binding NewsID}" Visibility="Hidden"/> <!--tag helper-->     
+                                <Border CornerRadius="20" Grid.Row="0" BorderThickness="6" BorderBrush="white" Height="400" Margin="30 0" >
+                                    <Border.Background>
+                                        <ImageBrush x:Name="img_SlidePanel" Stretch="UniformToFill" ImageSource="{Binding ImageURL}"/>
+                                    </Border.Background>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="120*"/>
+                                            <RowDefinition Height="20*"/>
+                                            <RowDefinition Height="30*"/>
+                                        </Grid.RowDefinitions>
+
+                                        <Label x:Name="lb_LatestArticleHeader" 
+                                                Grid.Row="1"
+                                                Height="auto"
+                                                Opacity="0.8"
+                                                Content="{Binding Header}"
+                                                Background="#F84E6F" 
+                                                Foreground="white" 
+                                                FontFamily="Segoe UI"
+                                                HorizontalContentAlignment="Left"
+                                                VerticalContentAlignment="Center"
+                                                FontSize="20"
+                                                FontWeight="SemiBold"/>
+
+                                        <Border Grid.Row="2" 
+                                                CornerRadius="0 0 20 20" 
+                                                Background="#F84E6F"
+                                                Opacity="0.8">
+
+                                            <TextBlock Height="auto"
+                                                       Text="{Binding Content}"
+                                                       Background="Transparent" 
+                                                       Foreground="white" 
+                                                       FontFamily="Segoe UI"
+                                                       TextWrapping="Wrap"
+                                                       FontSize="16"/>
+                                        </Border>
+                                    </Grid>
+                                </Border>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <StackPanel Margin="0 30 0 0">
+                    <ItemsControl x:Name="OlderArticles">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Background="White" Height="150" Margin="30 0 30 30" CornerRadius="20">
+                                    <Grid MouseLeftButtonDown="Article_Click" Cursor="Hand">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="150"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Content="{Binding NewsID}" Visibility="Hidden"/> <!--tag helper-->
+                                        <Border Grid.Column="0" CornerRadius="20 0 0 20">
+                                            <Border.Background>
+                                                <ImageBrush  Stretch="UniformToFill" ImageSource="{Binding ImageURL}"/>
+                                            </Border.Background>
+
+                                        </Border>
+
+
+                                        <Border Grid.Column="1">
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="26*"/>
+                                                    <RowDefinition Height="74*"/>
+                                                </Grid.RowDefinitions>
+
+                                                 <Label Grid.Row="0"
+                                                        Content="{Binding Header}"
+                                                        Padding="10 0"
+                                                        Margin="0"
+                                                        Foreground="#97989B" 
+                                                        FontFamily="Segoe UI"
+                                                        FontSize="20"
+                                                        VerticalContentAlignment="Center"/>
+
+
+                                                <TextBlock Grid.Row="1"
+                                                           Text="{Binding Content}"
+                                                           Padding="10 0"
+                                                           Margin="0"
+                                                           TextWrapping="Wrap"
+                                                           Foreground="#97989B" 
+                                                           FontFamily="Segoe UI"
+                                                           FontSize="16"/>
+                                            </Grid>
+                                        </Border>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+
+            </StackPanel>
+        </ScrollViewer>
+
     </Grid>
 </UserControl>

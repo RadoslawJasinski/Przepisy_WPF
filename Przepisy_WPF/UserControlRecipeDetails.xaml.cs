@@ -40,7 +40,7 @@ namespace Przepisy_WPF
 
 
         private void BtnBack_Click(object sender, RoutedEventArgs e)
-        { 
+        {
             UserControlHome uscH = new UserControlHome(Data);
             this.Content = uscH;
         }

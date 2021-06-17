@@ -68,6 +68,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Models\Ingredient.cs" />
+    <Compile Include="Models\News.cs" />
     <Compile Include="PrintRecipe.xaml.cs">
       <DependentUpon>PrintRecipe.xaml</DependentUpon>
     </Compile>
@@ -79,6 +80,9 @@
     </Compile>
     <Compile Include="UserControlNews.xaml.cs">
       <DependentUpon>UserControlNews.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControlNewsDetails.xaml.cs">
+      <DependentUpon>UserControlNewsDetails.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControlRecipeDetails.xaml.cs">
       <DependentUpon>UserControlRecipeDetails.xaml</DependentUpon>
@@ -109,6 +113,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControlNews.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControlNewsDetails.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

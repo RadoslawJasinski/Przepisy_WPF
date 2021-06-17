@@ -27,6 +27,7 @@ namespace Przepisy_WPF
             
             _data.GetData();
             _data.GetIngredient();
+            _data.GetNews();
 
             MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight;
             UserControlHome UscHome = new UserControlHome(_data);
@@ -110,6 +111,7 @@ namespace Przepisy_WPF
             return myGradient;
         }
 
+
         private void BtnMenu_Click(object sender, RoutedEventArgs e)
         {
             btn_Home.Background = Brushes.Transparent;
@@ -164,7 +166,7 @@ namespace Przepisy_WPF
 
             if(clickedButton == btn_News)
             {
-                var usc = new UserControlNews();
+                var usc = new UserControlNews(_data.NewsList,_data);
                 ContentPanel.Children.Add(usc);
             }
 

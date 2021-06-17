@@ -65,7 +65,7 @@
                                 <RowDefinition Height="150"/>
                                 <RowDefinition Height="50"/>
                             </Grid.RowDefinitions>
-
+                            <Label Content="{Binding RecipeID}" Visibility="Hidden"/> <!--tag helper-->
                             <Border Grid.RowSpan="3" Grid.ColumnSpan="2" CornerRadius="20" Cursor="Hand" Width="250" Height="250">
                                 <Border.Background>
                                     <ImageBrush x:Name="img_Item" Stretch="UniformToFill" ImageSource="{Binding ImageURL}"/>

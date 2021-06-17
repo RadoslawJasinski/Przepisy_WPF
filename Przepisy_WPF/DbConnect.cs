@@ -20,6 +20,7 @@ namespace Przepisy_WPF
         public List<Recipe> SnackList { get; set; }
         public List<Recipe> DessertList { get; set; }
         public List<Ingredient> IngredientList { get; set; }
+        public List<News> NewsList { get; set; }
 
 
 
@@ -74,12 +75,12 @@ namespace Przepisy_WPF
 
         public List<Recipe> GetData()
         {
-            string id;
+            int id;
             string name;
             string description;
             string imageURL;
             string spices;
-            string categoryID;
+            int categoryID;
             string query = "SELECT * FROM Recipes";
 
             RecipesAllList = new List<Recipe>();
@@ -90,21 +91,22 @@ namespace Przepisy_WPF
                 var dr = cmd.ExecuteReader();
                 while (dr.Read())
                 {
-                    id = dr["id_recipe"].ToString();
+                    id = (int)dr["id_recipe"];
                     name = dr["name_recipe"].ToString();
                     description = dr["description_recipe"].ToString();
                     imageURL = dr["imageURL_recipe"].ToString();
                     spices = dr["spices_recipe"].ToString();
-                    categoryID = dr["id_category"].ToString();
+                    categoryID = (int)dr["id_category"];
 
                     RecipesAllList.Add(new Recipe(id,name, description, imageURL, spices, categoryID));
                 }
                 dr.Close();
                 this.CloseConnection();
-                BreakfastList = RecipesAllList.FindAll(x => x.CategoryID.Contains("1"));
-                DinnerList = RecipesAllList.FindAll(x => x.CategoryID.Contains("2"));
-                SnackList = RecipesAllList.FindAll(x => x.CategoryID.Contains("3"));
-                DessertList = RecipesAllList.FindAll(x => x.CategoryID.Contains("4"));
+                RecipesAllList.OrderByDescending(x => x.RecipeID);
+                BreakfastList = RecipesAllList.FindAll(x => x.CategoryID.Equals(1));
+                DinnerList = RecipesAllList.FindAll(x => x.CategoryID.Equals(2));
+                SnackList = RecipesAllList.FindAll(x => x.CategoryID.Equals(3));
+                DessertList = RecipesAllList.FindAll(x => x.CategoryID.Equals(4));
                 return RecipesAllList;
             }
             else
@@ -115,7 +117,7 @@ namespace Przepisy_WPF
 
         public List<Ingredient> GetIngredient() //Get all ingredients from database
         {
-            string id;
+            int id;
             string name;
             string query = "SELECT * FROM Ingredients";
 
@@ -127,7 +129,7 @@ namespace Przepisy_WPF
                 var dr = cmd.ExecuteReader();
                 while (dr.Read())
                 {
-                    id = dr["id_ingredient"].ToString();
+                    id = (int)dr["id_ingredient"];
                     name = dr["name_ingredient"].ToString();
 
                     IngredientList.Add(new Ingredient(id, name));
@@ -143,7 +145,52 @@ namespace Przepisy_WPF
             }
         }
 
-        public List<Ingredient> GetSelectedIngredientsName(string id_recipe) //Get all matching ingredient's name for clicked recipe by recipeID
+        public List<News> GetNews()
+        {
+            int id;
+            string header;
+            string content;
+            string imageURL;
+            bool isRecipe;
+            int recipeid;
+            string query = "SELECT * FROM News";
+
+            NewsList = new List<News>();
+
+            if (this.OpenConnection() == true)
+            {
+                var cmd = new MySqlCommand(query, cn);
+                var dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    id = (int)dr["id_news"];
+                    header = dr["header_news"].ToString();
+                    content = dr["content_news"].ToString();
+                    imageURL = dr["imageURL"].ToString();
+                    int isRecipeHelper = (int)dr["isRecipe"];
+                    if(isRecipeHelper == 1)
+                    {
+                        isRecipe = true;
+                    }
+                    else
+                    {
+                        isRecipe = false;
+                    }
+                    recipeid = (int)dr["recipe_id"];
+
+                    NewsList.Add(new News(id, header, content, imageURL, isRecipe, recipeid));
+                }
+                dr.Close();
+                this.CloseConnection();
+                return NewsList;
+            }
+            else
+            {
+                return NewsList;
+            }
+        }
+
+        public List<Ingredient> GetSelectedIngredientsName(int id_recipe) //Get all matching ingredient's name for clicked recipe by recipeID
         {
             string query = $"SELECT Ingredients.name_ingredient FROM Ingredients INNER JOIN Recipes_ingredients ON Recipes_ingredients.id_ingredient = Ingredients.id_ingredient WHERE Recipes_ingredients.id_recipe = {id_recipe}";
             string name;
@@ -199,12 +246,12 @@ namespace Przepisy_WPF
 
         public List<Recipe> GetSelected(string recipeID) //Get more information about recipe by recipeID
         {
-            string id;
+            int id;
             string name;
             string description;
             string imageURL;
             string spices;
-            string categoryID;
+            int categoryID;
             string query = $"SELECT * FROM Recipes WHERE id_recipe IN ({recipeID})";
 
             SelectedRecipes = new List<Recipe>();
@@ -217,12 +264,12 @@ namespace Przepisy_WPF
                     var dr = cmd.ExecuteReader();
                     while (dr.Read())
                     {
-                        id = dr["id_recipe"].ToString();
+                        id = (int)dr["id_recipe"];
                         name = dr["name_recipe"].ToString();
                         description = dr["description_recipe"].ToString();
                         imageURL = dr["imageURL_recipe"].ToString();
                         spices = dr["spices_recipe"].ToString();
-                        categoryID = dr["id_category"].ToString();
+                        categoryID = (int)dr["id_category"];
 
                         SelectedRecipes.Add(new Recipe(id,name, description, imageURL, spices, categoryID));
                     }
@@ -242,7 +289,7 @@ namespace Przepisy_WPF
             }
         }
 
-        public List<Recipe> GetDetailImages(string recipe_id) //Get more images for clicked recipe
+        public List<Recipe> GetDetailImages(int recipe_id) //Get more images for clicked recipe
         {
             string imageURL;
             string query = $"SELECT * FROM Recipes_images WHERE id_recipe = {recipe_id}";
@@ -270,11 +317,11 @@ namespace Przepisy_WPF
             }
         }
 
-        public List<Ingredient> GetDetailQuantityIngredient(string recipe_id) //Get quantity foreach ingredient 
+        public List<Ingredient> GetDetailQuantityIngredient(int recipe_id) //Get quantity foreach ingredient 
         {
             string quantity;
-            string id_recipe;
-            string id_ingredient;
+            int id_recipe;
+            int id_ingredient;
 
             string query = $"SELECT * FROM Recipes_ingredients WHERE id_recipe = {recipe_id}";
 
@@ -288,8 +335,8 @@ namespace Przepisy_WPF
                 while (dr.Read())
                 {
                     quantity = dr["qu_ingredient"].ToString();
-                    id_ingredient = dr["id_ingredient"].ToString();
-                    id_recipe = dr["id_recipe"].ToString();
+                    id_ingredient = (int)dr["id_ingredient"];
+                    id_recipe = (int)dr["id_recipe"];
 
 
                     quantityList.Add(new Ingredient(quantity,id_ingredient,id_recipe));
@@ -304,6 +351,9 @@ namespace Przepisy_WPF
             }
         }
 
-
+        public static implicit operator DbConnect(List<News> v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
