@@ -26,6 +26,8 @@ In the future:
 
 ## User Interface
 
+![presentation](https://github.com/RadoslawJasinski/RecipeApp/blob/master/Github%20images/App.gif)
+<p align="center">Presentation</p>&nbsp;
 
 ![home page](https://github.com/RadoslawJasinski/RecipeApp/blob/master/Github%20images/main.png)
 <p align="center">Main panel</p>&nbsp;
